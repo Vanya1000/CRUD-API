@@ -7,6 +7,7 @@ import {
   NextFunctionType,
 } from "./types.js";
 import Router from "./Router.js";
+import { sendJson } from "../utils/index.js";
 
 class Application {
   private emitter: EventEmitter;
@@ -19,34 +20,33 @@ class Application {
     this.middlewares = [];
   }
 
-  use(middleware: MiddlewareType) {
+  public use(middleware: MiddlewareType) {
     // register middleware
     this.middlewares.push(middleware);
   }
 
-  listen(port: string, callback?: () => void) {
+  public listen(port: string | undefined, callback?: () => void) {
     this.server.listen(port, callback);
   }
 
-  addRouter(router: Router) {
+  public addRouter(router: Router) {
     Object.keys(router.endpoints).forEach((path) => {
       const endpoint = router.endpoints[path];
       Object.keys(endpoint).forEach((method) => {
-        this.emitter.on(this._getRouteMask(path, method), (req, res) => {
+        this.emitter.on(this._getRouteMask(path, method), (req, res, id?) => {
           const handler = endpoint[method];
-          handler(req, res);
+          handler(req, res, id);
         });
       });
     });
   }
 
-  _executeMiddlewares(
+  private _executeMiddlewares(
     middlewares: MiddlewareType[],
     req: NodeServerReqType,
     res: NodeServerResType,
     next: NextFunctionType
   ): void {
-    // console.log(middlewares);
     if (middlewares.length === 0) {
       return next();
     }
@@ -57,24 +57,33 @@ class Application {
     );
   }
 
-  _createServer() {
+  private _createServer() {
     return http.createServer((req, res) => {
       this._executeMiddlewares(this.middlewares, req, res, () => {
         const emmitted = this.emitter.emit(
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          this._getRouteMask(req.pathname, req.method),
+          this._getRouteMask(req.url, req.method),
           req,
           res
         ); // return true or false
         if (!emmitted) {
-          res.end("404 Not Found");
+          const pathWithId = req.url?.split("/");
+          const id = pathWithId?.at(-1);
+          const pathMask = pathWithId?.slice(0, -1).join("/") + "/:id";
+          const emmittedWithId = this.emitter.emit(
+            this._getRouteMask(pathMask, req.method),
+            req,
+            res,
+            id
+          );
+          if (!emmittedWithId) {
+            sendJson(res, { message: "There is no such Endpoint" }, 404)
+          }
         }
       });
     });
   }
 
-  _getRouteMask(path: string, method: string | undefined) {
+  private _getRouteMask(path: string | undefined, method: string | undefined) {
     return `[${path}]:[${method}]`;
   }
 }

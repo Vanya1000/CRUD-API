@@ -7,11 +7,11 @@ const middlewareBodyParser: MiddlewareType = (req, res, next) => {
   });
   req.on("end", () => {
     try {
-      req.body = JSON.parse(body);
+      if (body.length !== 0) req.body = JSON.parse(body);
       next();
     } catch (err) {
-      req.body = {};
-      next();
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Invalid JSON" }));
     }
   });
 }
