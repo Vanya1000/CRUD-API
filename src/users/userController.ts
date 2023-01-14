@@ -9,7 +9,7 @@ class UserController {
   public getAll: HandlerType = async (req, res) => {
     try {
       if (!res.send) throw new Error("res.send is undefined");
-      const users = userService.getAllUsersService();
+      const users = await userService.getAllUsersService();
       res.send(users);
     } catch (error) {
       errorHandler(error, res);
@@ -23,7 +23,7 @@ class UserController {
         res.send({ message: "Invalid id" }, 400);
         return;
       }
-      const user = userService.getByIdUserService(id);
+      const user = await userService.getByIdUserService(id);
       if (!user) {
         res.send({ message: "User not found" }, 404);
         return;
@@ -43,7 +43,7 @@ class UserController {
         res.send({ message: "Validation failed", errors }, 400);
         return;
       }
-      const newUser = userService.createUserService(user);
+      const newUser = await userService.createUserService(user);
       res.send(newUser, 201);
     } catch (error) {
       errorHandler(error, res);
@@ -57,7 +57,7 @@ class UserController {
         res.send({ message: "Invalid id" }, 400);
         return;
       }
-      const user = userService.getByIdUserService(id);
+      const user = await userService.getByIdUserService(id);
       if (!user) {
         res.send({ message: "User not found" }, 404);
         return;
@@ -68,7 +68,7 @@ class UserController {
         res.send({ message: "Validation failed", errors }, 400);
         return;
       }
-      const updated = userService.updateUserService(id, updatedUser);
+      const updated = await userService.updateUserService(id, updatedUser);
       res.send(updated);
     } catch (error) {
       errorHandler(error, res);
@@ -82,13 +82,13 @@ class UserController {
         res.send({ message: "Invalid id" }, 400);
         return;
       }
-      const user = userService.getByIdUserService(id);
+      const user = await userService.getByIdUserService(id);
       if (!user) {
         res.send({ message: "User not found" }, 404);
         return;
       }
-      userService.deleteUserService(id);
-      res.send({ message: `User ${id} was successfully deleted` }, 204);
+      await userService.deleteUserService(id);
+      res.send({}, 204);
     } catch (error) {
       errorHandler(error, res);
     }
