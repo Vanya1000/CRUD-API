@@ -14,6 +14,6 @@ const middlewareBodyParser: MiddlewareType = (req, res, next) => {
       res.end(JSON.stringify({ message: "Invalid JSON" }));
     }
   });
-}
+};
 
 export default middlewareBodyParser;

@@ -56,7 +56,7 @@ class UserService {
       return users[userIndex];
     } else {
       const updatedUser = await requestToDB.update(id, user);
-    return updatedUser as UserType;
+      return updatedUser as UserType;
     }
   }
 

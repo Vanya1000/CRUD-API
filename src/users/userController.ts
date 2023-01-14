@@ -73,7 +73,7 @@ class UserController {
     } catch (error) {
       errorHandler(error, res);
     }
-  }
+  };
 
   public delete: HandlerType = async (req, res, id) => {
     try {
@@ -92,7 +92,7 @@ class UserController {
     } catch (error) {
       errorHandler(error, res);
     }
-  }
+  };
 }
 
 export default new UserController();

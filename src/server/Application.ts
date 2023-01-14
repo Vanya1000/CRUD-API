@@ -80,7 +80,7 @@ class Application {
             id
           );
           if (!emmittedWithId) {
-            sendJson(res, { message: "There is no such Endpoint" }, 404)
+            sendJson(res, { message: "There is no such Endpoint" }, 404);
           }
         }
       });

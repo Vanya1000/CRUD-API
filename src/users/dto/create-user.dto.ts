@@ -1,9 +1,9 @@
 export type DtoType = {
   properties: {
     [key: string]: {
-      type: 'array' | 'string' | 'number';
+      type: "array" | "string" | "number";
       isRequired?: boolean;
-      itemsType?: 'string';
+      itemsType?: "string";
     };
   };
 };
@@ -11,7 +11,7 @@ export type DtoType = {
 export const CreateUserDto: DtoType = {
   properties: {
     username: { type: "string", isRequired: true },
-    age: { type: "number", isRequired: true},
+    age: { type: "number", isRequired: true },
     hobbies: { type: "array", isRequired: true, itemsType: "string" },
   },
-}
+};

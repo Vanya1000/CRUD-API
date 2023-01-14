@@ -79,7 +79,6 @@ if (cluster.isPrimary) {
       childProcessDB.send(data);
     });
   });
-
 } else {
   const PORT = process.env.PORT_WORKER;
   if (!PORT) throw new Error("PORT_WORKER is not defined");

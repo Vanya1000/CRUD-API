@@ -4,17 +4,16 @@ import app from "..";
 const testUser = {
   username: "test",
   age: 30,
-  hobbies: ["test"]
-}
+  hobbies: ["test"],
+};
 
 const updateUser = {
   username: "updated",
   age: 30,
-  hobbies: ["updated"]
-}
+  hobbies: ["updated"],
+};
 
 describe("Test Users endpoints", () => {
-
   it("should get an empty array users", async () => {
     const response = await request(app.server)
       .get("/api/users")
@@ -31,7 +30,7 @@ describe("Test Users endpoints", () => {
     expect(response.status).toBe(201);
     expect(response.body).toMatchObject({
       id: expect.any(String),
-      ...testUser
+      ...testUser,
     });
   });
 
@@ -47,11 +46,11 @@ describe("Test Users endpoints", () => {
     expect(responseGetUser.status).toBe(200);
     expect(responseGetUser.body).toMatchObject({
       id: idUser,
-      ...testUser
+      ...testUser,
     });
   });
 
-  it ("should update user data", async () => {
+  it("should update user data", async () => {
     const response = await request(app.server)
       .post("/api/users")
       .send(testUser)
@@ -64,11 +63,11 @@ describe("Test Users endpoints", () => {
     expect(responseUpdateUser.status).toBe(200);
     expect(responseUpdateUser.body).toMatchObject({
       id: idUser,
-      ...updateUser
+      ...updateUser,
     });
   });
 
-  it ("should delete user", async () => {
+  it("should delete user", async () => {
     const response = await request(app.server)
       .post("/api/users")
       .send(testUser)
@@ -79,5 +78,4 @@ describe("Test Users endpoints", () => {
       .set("Accept", "application/json");
     expect(responseDeleteUser.status).toBe(204);
   });
-
 });

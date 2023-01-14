@@ -11,7 +11,7 @@ export const sendJson = (
 
 export const errorHandler = (error: unknown, res: NodeServerResType) => {
   if (error instanceof Error) {
-    sendJson(res, { message: 'Server error occur' }, 500);
+    sendJson(res, { message: "Server error occur" }, 500);
   } else {
     sendJson(res, { message: "Unknown server error" }, 500);
   }
