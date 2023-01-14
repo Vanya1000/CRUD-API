@@ -78,4 +78,19 @@ describe("Test Users endpoints", () => {
       .set("Accept", "application/json");
     expect(responseDeleteUser.status).toBe(204);
   });
+
+  it("should answer is that there is no such object deleted user", async () => {
+    const response = await request(app.server)
+      .post("/api/users")
+      .send(testUser)
+      .set("Accept", "application/json");
+    const idUser = response.body.id;
+    await request(app.server)
+      .delete(`/api/users/${idUser}`)
+      .set("Accept", "application/json");
+    const responseGetUser = await request(app.server)
+      .get(`/api/users/${idUser}`)
+      .set("Accept", "application/json");
+    expect(responseGetUser.status).toBe(404);
+  });
 });
