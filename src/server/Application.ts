@@ -11,7 +11,7 @@ import { sendJson } from "../utils/index.js";
 
 class Application {
   private emitter: EventEmitter;
-  private server: http.Server;
+  public server: http.Server;
   private middlewares: MiddlewareType[];
 
   constructor() {
@@ -25,8 +25,12 @@ class Application {
     this.middlewares.push(middleware);
   }
 
-  public listen(port: string | undefined, callback?: () => void) {
+  public listen(port: number | undefined, callback?: () => void) {
     this.server.listen(port, callback);
+  }
+
+  public close(callback?: () => void) {
+    this.server.close(callback);
   }
 
   public addRouter(router: Router) {

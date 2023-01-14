@@ -9,6 +9,4 @@ userRouter.post("/api/users", userController.create);
 userRouter.put("/api/users/:id", userController.update);
 userRouter.delete("/api/users/:id", userController.delete);
 
-console.log('userRouter.getAllEndpoints(): ', userRouter.getAllEndpoints());
-
 export default userRouter;
