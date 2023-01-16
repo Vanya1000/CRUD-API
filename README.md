@@ -9,12 +9,12 @@
 
 ## Running
 
-`npm run start:prod` - run in production mode (starts the build process and then runs the bundled file)
-`npm run start:dev` - run in development mode using nodemon
-`npm run start:multi` - starts multiple instances application
-`npm run test` 6 scenarios tests you can launch
-`npm run lint` launch linter
-`npm run format` launch prettier
+`npm run start:prod` - run in production mode (starts the build process and then runs the bundled file <br />
+`npm run start:dev` - run in development mode using nodemon<br />
+`npm run start:multi` - starts multiple instances application<br />
+`npm run test` 6 scenarios tests you can launch<br />
+`npm run lint` launch linter<br />
+`npm run format` launch prettier<br />
 
 #### Using
 
